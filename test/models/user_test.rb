@@ -7,7 +7,7 @@ class UserTest < ActiveSupport::TestCase
     @user = User.new( name: "Kris",
                       email: "twoj@kris.buziaczek.com",
                       password: "jestem_zwierzakiem",
-                      password_digest: "jestem_zwierzakiem"
+                      password_confirmation: "jestem_zwierzakiem"
             )
   end
 

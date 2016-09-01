@@ -4,8 +4,16 @@
   <body>
     <%=  render 'layouts/header' %>
   	<div class="container">
+
+      <% flash.each do |type, msg| %>
+        <!-- Two equal ways of displaying flash message: -->
+        <!-- <div class="alert alert-<%= type %>"><%= msg %></div> -->
+        <%= content_tag(:div, msg, class: "alert alert-#{type}") %>
+      <% end %>
+
     	<%= yield %>
       <%= render 'layouts/footer' %>
+      <%= debug(params) if Rails.env.development? %>
 	  </div>
   </body>
 </html>

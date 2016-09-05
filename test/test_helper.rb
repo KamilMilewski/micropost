@@ -9,5 +9,14 @@ class ActiveSupport::TestCase
   fixtures :all
   include ApplicationHelper
 
+  # Returns true if user is logged in.
+  # It is paraller method to the logged_in? defined in application_helper.rb
+  # controller helpers aren't available in tests by default
+  # and we'll find out during tests if there is something wrong with controller
+  # helper method is_logged?.
+  def is_logged_in?
+    !session[:user_id].nil?
+  end
+
   # Add more helper methods to be used by all tests here...
 end

@@ -16,6 +16,14 @@ class User < ApplicationRecord
   # -It provides authenticate method that returns user if password is correct and
   #  false otherwise.
   has_secure_password
-
   validates :password, presence: true, length: {minimum: 6, maximum: 255}
+
+  #User class method. Creates digest of a given string.
+  def User.digest(string)
+    #cost defines computational cost of decrypting digested password.
+    #Thin line arranges for low cost in test and development and high in prod.
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
 end

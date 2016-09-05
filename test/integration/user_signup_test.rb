@@ -26,7 +26,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert_select "div.alert-success"
     assert_not flash.empty?
-
+    assert is_logged_in?
   end
 
   test "invalid signup submission" do
@@ -53,5 +53,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     assert_select "div.field_with_errors"
     assert_select 'ul'
     assert_select 'li'
+
+    assert_not is_logged_in?
   end
 end

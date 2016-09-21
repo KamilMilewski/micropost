@@ -6,7 +6,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     #go to signup page and test if form action is correct
     get signup_path
     assert_response :success
-    assert_select "form[action=?]", "/signup"
+    assert_select "form[action=?]", "/users"
 
     #test if creating user with valid data will succeed
     #and 1 user will be created
@@ -23,7 +23,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
 
     #make sure message has been displayed
     follow_redirect!
-    assert_template 'users/show'
+    assert_template 'show'
     assert_select "div.alert-success"
     assert_not flash.empty?
     assert is_logged_in?
@@ -33,7 +33,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     #go to signup page and test if form action is correct
     get signup_path
     assert_response :success
-    assert_select "form[action=?]", "/signup"
+    assert_select "form[action=?]", "/users"
 
     #test if creating user with invalid data will be rejected
     assert_no_difference 'User.count' do

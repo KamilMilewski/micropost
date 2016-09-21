@@ -1,0 +1,12 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %>
+
+  <% # Pure magic here. Rails infers from @users that this is a collection of
+     # users and iterates through them. For each element it searches for partial
+     # with name user and renders it
+     %>
+  <%= render @users %>
+
+<%= will_paginate %>

@@ -16,8 +16,13 @@ class User < ApplicationRecord
   # -It adds validation if those two are present and match.
   # -It provides authenticate method that returns user if password is correct and
   #  false otherwise.
+  # -It provides validation: password should be present on CREATION. This means
+  #  that password can be nil on user edit for example
   has_secure_password
-  validates :password, presence: true, length: {minimum: 6, maximum: 255}
+  validates :password, presence: true, length: {minimum: 6, maximum: 255},
+            # This alloq_nil dosen't apply to user creation. Thanks to this
+            # user dosen't need to provide password during profile edit
+            allow_nil: true
 
 
   # Remembers the user in database for use in persistent sessions.

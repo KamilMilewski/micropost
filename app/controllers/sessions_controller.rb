@@ -7,7 +7,8 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       log_in @user
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      redirect_to @user
+      # Friendly forwarding:
+      redirect_back_or @user
     else
       # Flash.now has been used here because we want this message to be displayed
       # only on rendered page and not on a page displayed after another request.

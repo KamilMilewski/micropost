@@ -40,7 +40,7 @@ module SessionsHelper
     # so this line first decipher :user_id in a cookie and then do an assignment
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @currnt_user = user
       end

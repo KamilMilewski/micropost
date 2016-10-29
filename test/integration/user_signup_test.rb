@@ -2,7 +2,13 @@ require 'test_helper'
 
 class UserSignupTest < ActionDispatch::IntegrationTest
 
-  test "valid signup submission" do
+  def setup
+    # deliveries keeps an array of all the emails sent out through the
+    # ActionMailer with delivery method :test
+    ActionMailer::Base.deliveries.clear
+  end
+
+  test "valid signup information with account activation" do
     #go to signup page and test if form action is correct
     get signup_path
     assert_response :success
@@ -20,13 +26,27 @@ class UserSignupTest < ActionDispatch::IntegrationTest
         }
       }
     end
-
-    #make sure message has been displayed
-    # follow_redirect!
-    # assert_template 'show'
-    # assert_select "div.alert-success"
-    # assert_not flash.empty?
-    # assert is_logged_in?
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    # assigns method allows to access controller instance variables
+    # (analogous to accessing controller variables in views)
+    # :user in this case relates to @user variable defined in session controller
+    user = assigns(:user)
+    assert_not user.activated?
+    # Try to log in before activation.
+    log_in_as(user)
+    assert_not is_logged_in?
+    # Invalid activation token
+    get edit_account_activation_path("invalid token", email: user.email)
+    assert_not is_logged_in?
+    # Valid token, wrong email
+    get edit_account_activation_path(user.activation_token, email: 'wrong')
+    assert_not is_logged_in?
+    # Valid activation token
+    get edit_account_activation_path(user.activation_token, email: user.email)
+    assert user.reload.activated?
+    follow_redirect!
+    assert_template 'users/show'
+    assert is_logged_in?
   end
 
   test "invalid signup submission" do

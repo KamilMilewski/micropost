@@ -87,7 +87,11 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'km-micropost.herokuapp.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
+<<<<<<< HEAD
   config.action_mailer.raise_delivery_errors = true
+=======
+  config.action_mailer.raise_delivery_errors = false
+>>>>>>> ee6d92b02ff65f0a1cab309dd33c33629f53f3dd
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",

@@ -1,8 +1,8 @@
 module SessionsHelper
   def log_in(user)
-    #session is Rails build in method. In this case it will store encrypter
-    #user.id in a TEMPORARY cookie under key :user_id. Cookies created with
-    #session expire after browser close.
+    # session is Rails build in method. In this case it will store encrypter
+    # user.id in a TEMPORARY cookie under key :user_id. Cookies created with
+    # session expire after browser close.
     session[:user_id] = user.id
   end
 
@@ -51,7 +51,7 @@ module SessionsHelper
     user == current_user
   end
 
-  #returns true if user is loggen in
+  # returns true if user is loggen in
   def logged_in?
     !current_user.nil?
   end

@@ -11,8 +11,8 @@ class SessionsController < ApplicationController
         # Friendly forwarding:
         redirect_back_or @user
       else
-        message = "Account not activated. "
-        message += "Check your email for activation link."
+        message = 'Account not activated. '
+        message += 'Check your email for activation link.'
         flash[:warning] = message
         redirect_to root_url
       end

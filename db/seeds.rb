@@ -7,33 +7,33 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # create! raises exception when fails, create just returns false
-User.create!(name: "Example user",
-              email: "example@railstutorial.com",
-              password: "password",
-              password_confirmation: "password",
-              admin: true,
-              activated: true,
-              activated_at: Time.zone.now)
+User.create!(name: 'Example user',
+             email: 'example@railstutorial.com',
+             password: 'password',
+             password_confirmation: 'password',
+             admin: true,
+             activated: true,
+             activated_at: Time.zone.now)
 
-User.create!(name: "cos",
-              email: "cos@cos.com",
-              password: "aaaaaa",
-              password_confirmation: "aaaaaa",
-              admin: true,
-              activated: true,
-              activated_at: Time.zone.now)
+User.create!(name: 'cos',
+             email: 'cos@cos.com',
+             password: 'aaaaaa',
+             password_confirmation: 'aaaaaa',
+             admin: true,
+             activated: true,
+             activated_at: Time.zone.now)
 
-User.create!(name: "user",
-             email: "user@user.com",
-             password: "aaaaaa",
-             password_confirmation: "aaaaaa",
+User.create!(name: 'user',
+             email: 'user@user.com',
+             password: 'aaaaaa',
+             password_confirmation: 'aaaaaa',
              activated: true,
              activated_at: Time.zone.now)
 
 99.times do |n|
   name = Faker::Name.name
-  email = "example-#{n+1}@railstutorial.org"
-  password = "password"
+  email = "example-#{n + 1}@railstutorial.org"
+  password = 'password'
   User.create!(name: name,
                email: email,
                password: password,

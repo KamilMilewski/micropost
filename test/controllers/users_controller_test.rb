@@ -7,24 +7,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @non_activated_user = users(:johny)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get signup_path
     assert_response :success
   end
 
-  test "should redirect edit when not logged in" do
+  test 'should redirect edit when not logged in' do
     get edit_user_path(@user)
     assert_not flash.empty?
     assert_redirected_to login_url
   end
 
-  test "should redirect update when not logged in" do
+  test 'should redirect update when not logged in' do
     patch user_path(@user)
     assert_not flash.empty?
     assert_redirected_to login_url
   end
 
-  test "should not allow update admin attribute from the web" do
+  test 'should not allow update admin attribute from the web' do
     log_in_as(@user)
     get edit_user_path(@user)
     assert_not @user.admin?
@@ -40,14 +40,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not @user.reload.admin?
   end
 
-  test "should redirect edit when logged in as wrong user" do
+  test 'should redirect edit when logged in as wrong user' do
     log_in_as(@other_user)
     get edit_user_path(@user)
     assert flash.empty?
     assert_redirected_to root_url
   end
 
-  test "should redirect patch when logged in as wrong user" do
+  test 'should redirect patch when logged in as wrong user' do
     log_in_as(@other_user)
     patch user_path(@user), params: {
       user: {
@@ -62,19 +62,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   # Non logged users should not be allowed to access users index page
-  test "should redirect index when not logged in" do
+  test 'should redirect index when not logged in' do
     get users_path
     assert_redirected_to login_url
   end
 
-  test "should redirect destroy when not logged in" do
+  test 'should redirect destroy when not logged in' do
     assert_no_difference 'User.count' do
       delete user_path(@user)
     end
     assert_redirected_to login_url
   end
 
-  test "should redirect destroy when non logged in as admin" do
+  test 'should redirect destroy when non logged in as admin' do
     log_in_as(@user)
     assert_no_difference 'User.count' do
       delete user_path(@other_user)
@@ -82,10 +82,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
-  test "should reditect show when user not activated" do
+  test 'should reditect show when user not activated' do
     log_in_as(@user)
     get user_path @non_activated_user
     assert_redirected_to root_url
   end
-
 end

@@ -50,9 +50,9 @@ class UsersEditTest < ActionDispatch::IntegrationTest
 
     errors_count = @user.errors.messages.count
     assert_template 'users/edit'
-    assert_select "div#error_explanation"
-    assert_select "div.alert-danger",  {text: 'The form contains 1 error.'}
-    assert_select "div.field_with_errors"
+    assert_select 'div#error_explanation'
+    assert_select 'div.alert-danger', text: 'The form contains 1 error.'
+    assert_select 'div.field_with_errors'
     assert_select 'ul'
     assert_select 'li'
   end

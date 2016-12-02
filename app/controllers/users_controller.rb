@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    redirect_to root_url and return unless @user.activated?
+    redirect_to(root_url) && return unless @user.activated?
   end
 
   def index
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    #because @user is a User.new, form_for will construct form with post method
+    # because @user is a User.new, form_for will construct form with post method
     @user = User.new
   end
 
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
+      flash[:info] = 'Please check your email to activate your account.'
       redirect_to root_url
     else
       render 'new'
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "Profile successfuly updated"
+      flash[:success] = 'Profile successfuly updated'
       redirect_to @user
     else
       render 'edit'
@@ -48,32 +48,33 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    flash[:success] = "user successfuly deleted"
+    flash[:success] = 'user successfuly deleted'
     redirect_to users_path
   end
 
   private
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
 
-    # Confirms a logged in user
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = 'You must be logged in.'
-        redirect_to login_path
-      end
-    end
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 
-    # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
+  # Confirms a logged in user
+  def logged_in_user
+    unless logged_in?
+      store_location
+      flash[:danger] = 'You must be logged in.'
+      redirect_to login_path
     end
+  end
 
-    # Confirm an admin user
-    def admin_user
-      redirect_to root_url unless current_user.admin?
-    end
+  # Confirms the correct user.
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless current_user?(@user)
+  end
+
+  # Confirm an admin user
+  def admin_user
+    redirect_to root_url unless current_user.admin?
+  end
 end

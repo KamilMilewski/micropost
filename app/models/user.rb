@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
 
+  has_many :microposts, dependent: :destroy
+
   # Callbacks:
   # Before saving user to db email is downcased.
   before_save :downcase_email
@@ -76,6 +78,14 @@ class User < ApplicationRecord
   # Return true if a password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  # Defindes a proto-feed.
+  # See "Following users" for the full implementation.
+  # Thanks to using ? here 'id' is escaped so we avoid SQL injection security
+  # hole.
+  def feed
+    Micropost.where('user_id = ?', id)
   end
 
   # class methods:

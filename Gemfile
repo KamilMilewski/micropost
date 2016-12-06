@@ -11,6 +11,9 @@ gem 'turbolinks',   '5.0.1'
 gem 'jbuilder',     '2.4.1'
 gem 'bootstrap-sass', '3.3.6'
 gem 'faker', '1.6.3' # for random names, etc...
+gem 'carrierwave', '0.11.2' # for files upload
+gem 'mini_magick', '4.5.1' # for image resizing
+gem 'fog', '1.38.0' # for image upload in production
 gem 'will_paginate', '3.1.1'
 gem 'bootstrap-will_paginate', '0.0.10'
 

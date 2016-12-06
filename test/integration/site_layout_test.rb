@@ -34,7 +34,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     # links only for logged in user
     assert_select 'a[href=?]', users_path, count: 1
     # user profile page
-    assert_select 'a[href=?]', "/users/#{@user.id}", count: 1
+    assert_select 'a[href=?]', "/users/#{@user.id}"
     # user settinds page (user edit path)
     assert_select 'a[href=?]', "/users/#{@user.id}/edit", count: 1
     assert_select 'a[href=?]', logout_path, count: 1

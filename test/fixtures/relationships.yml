@@ -1,0 +1,15 @@
+one:
+  follower: kamil
+  followed: lana
+
+two:
+  follower: kamil
+  followed: malory
+
+three:
+  follower: lana
+  followed: kamil
+
+four:
+  follower: archer
+  followed: kamil

@@ -2,6 +2,23 @@ class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
 
   has_many :microposts, dependent: :destroy
+  # When user follows another user then this is a active relationship for him.
+  # If he is being followed then it will be passive relationship.
+  has_many :active_relationships, class_name:  'Relationship',
+                                  foreign_key: 'follower_id',
+                                  dependent:   :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  # We could write here instead:
+  # has_many :followeds, through: :active_relationships
+  # But followeds sounds awkward so we are using :following instead and tell
+  # Rails that source for them should be :followed ids.
+
+  has_many :passive_relationships, class_name:  'Relationship',
+                                   foreign_key: 'followed_id',
+                                   dependent:   :destroy
+  # Using source: :follower could be ommited here because Rails would infer
+  # from :followers that he has to search for follower_id in table.
+  has_many :followers, through: :passive_relationships, source: :follower
 
   # Callbacks:
   # Before saving user to db email is downcased.
@@ -85,7 +102,10 @@ class User < ApplicationRecord
   # Thanks to using ? here 'id' is escaped so we avoid SQL injection security
   # hole.
   def feed
-    Micropost.where('user_id = ?', id)
+    following_ids = 'SELECT followed_id FROM relationships
+                     WHERE follower_id = :user_id'
+    Micropost.where("user_id IN (#{following_ids}) OR user_id = :user_id",
+                    user_id: id)
   end
 
   # class methods:
@@ -103,6 +123,21 @@ class User < ApplicationRecord
     def new_token
       SecureRandom.urlsafe_base64
     end
+  end
+
+  # Follows a user.
+  def follow(other_user)
+    active_relationships.create(followed_id: other_user.id)
+  end
+
+  # Unfollow a user.
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
   end
 
   private
